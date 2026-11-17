@@ -1,0 +1,235 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Before the Rush — The Nitty by GWO</title><style>:root{--brown:#42291f;--lilac:#84639a;--cream:#f8f2e9;--line:#d9c9bc}*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--brown);font:16px/1.55 system-ui,Arial}header{background:var(--brown);color:var(--cream);padding:30px max(20px,calc((100vw - 900px)/2))}header small{letter-spacing:2px;color:#d9bbeb}h1,h2{font-family:Georgia,serif;line-height:1.1}h1{font-size:clamp(38px,7vw,76px);margin:14px 0}main{max-width:900px;margin:auto;padding:22px}nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 24px}button,.btn{cursor:pointer;border:1px solid var(--brown);border-radius:8px;background:var(--brown);color:white;padding:10px 14px;font:inherit}button.secondary{background:transparent;color:var(--brown)}nav button.active{background:var(--lilac);border-color:var(--lilac)}section{display:none}section.active{display:block}.panel{background:#fffdf9;border:1px solid var(--line);padding:22px;border-radius:14px;margin:14px 0}.muted{color:#725e54}.question{border-bottom:1px solid var(--line);padding:12px 0}.question:last-child{border:0}.question label{display:block;font-weight:600;margin-bottom:6px}select,input{width:100%;padding:11px;border:1px solid #bca99d;border-radius:7px;background:white;font:inherit;color:var(--brown)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}.stat{padding:15px;background:#f0e7f4;border-radius:10px}.stat strong{display:block;font-size:24px}.task{display:flex;gap:12px;align-items:flex-start;border-bottom:1px solid var(--line);padding:12px 0}.task input{width:auto;margin-top:7px}.task.done span{text-decoration:line-through;opacity:.6}.template{white-space:pre-wrap;background:#f8f2e9;padding:14px;border-radius:8px}footer{padding:25px;text-align:center;color:#806f65;font-size:13px}.warning{border-left:4px solid var(--lilac);padding:10px 14px;background:#f1e9f6}@media print{header,nav,.no-print,button{display:none!important}section{display:block!important;break-before:page}.panel{break-inside:avoid}body{background:white}}
+.journey-progress{margin:0 0 20px;padding:12px 14px;background:#fffdf9;border:1px solid var(--line);border-radius:10px}
+.progress-track{height:6px;background:#eadfe9;border-radius:99px;overflow:hidden}
+.progress-track span{display:block;height:100%;width:16.666%;background:var(--lilac);transition:width .2s ease}
+.progress-meta{display:flex;justify-content:space-between;gap:12px;margin-top:8px;font-size:12px;color:#725e54}
+.step-nav{position:sticky;bottom:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:12px;margin:24px -22px -22px;padding:14px 22px calc(14px + env(safe-area-inset-bottom));background:rgba(248,242,233,.97);border-top:1px solid var(--line);backdrop-filter:blur(10px)}
+.step-nav .step-count{font-size:12px;color:#725e54;text-align:center}
+button:disabled{opacity:.4;cursor:not-allowed}
+.offer-link{display:inline-block;text-decoration:none;font-weight:650}
+@media(max-width:520px){.step-nav{margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}.step-nav button{padding:9px 10px;font-size:14px}.progress-meta{font-size:11px}}
+@media print{.journey-progress,.step-nav{display:none!important}}
+</style></head><body><header><small>THE NITTY BY GWO / BUSINESS TOOLBOX NO. 001</small><h1>Before the Rush.</h1><p>The free Christmas Sales Preparation Kit for Nigerian business owners.</p><p>Check your readiness. Know your numbers. Fix the gaps. Prepare to sell.</p></header><main><p class="muted">A practical, self-guided toolkit. Your entries are saved on this device in your browser; they are not sent to The Nitty.</p><nav id="nav" aria-label="Toolkit sections">
+<button data-tab="check" class="active">01 / Check-up</button>
+<button data-tab="profit">02 / Projected profit</button>
+<button data-tab="discount">03 / Discounts</button>
+<button data-tab="plan">04 / 7-day planner</button>
+<button data-tab="scripts">05 / Sales scripts</button>
+<button data-tab="offer">06 / Blueprint</button>
+</nav>
+<div class="journey-progress" aria-live="polite">
+<div class="progress-track"><span id="journeyBar"></span></div>
+<div class="progress-meta"><span id="journeyStep">STEP 1 OF 6</span><span id="journeyName">Christmas Sales Check-Up</span></div>
+</div><section id="check" class="active"><h2>Your Christmas Sales Check-Up</h2><p>Answer all 20 questions. Select “Yes” only if the item is already in place. Each answer scores 0, 1 or 2 points.</p><div id="questions"></div><div class="panel"><button onclick="calculate()">Calculate my readiness</button><div id="results" aria-live="polite"></div></div></section><section id="profit">
+<h2>Project your Christmas sales profit</h2>
+<p>Before you launch your Christmas sale, use this calculator to estimate how much money your campaign could bring in and what may remain after your expenses.</p>
+<div class="panel">
+<h3>1. Estimate your sales</h3>
+<p class="muted">Enter the average price you expect customers to pay and how many products or orders you hope to sell. If you sell different products at different prices, use an average selling price.</p>
+<div class="grid">
+<label>Expected selling price per product/order (₦)
+<input type="number" id="projectPrice" min="0" step="0.01" placeholder="e.g. 15000">
+<small class="muted">The amount you expect to receive for one product or order after any planned discount.</small>
+</label>
+<label>How many products/orders do you expect to sell?
+<input type="number" id="projectUnits" min="0" step="1" placeholder="e.g. 50">
+<small class="muted">Your realistic sales target for the Christmas campaign.</small>
+</label>
+</div>
+</div>
+<div class="panel">
+<h3>2. Estimate your costs</h3>
+<p class="muted">Enter the total amount you expect to spend to fulfil the sales target above. Use the total for the whole campaign, not the cost of one item. Enter 0 if a cost does not apply.</p>
+<div class="grid">
+<label>Total cost of products you plan to sell (₦)
+<input type="number" id="projectProducts" min="0" step="0.01" placeholder="e.g. 300000">
+<small class="muted">What it will cost you to buy or make all the products you expect to sell.</small>
+</label>
+<label>Total packaging costs (₦)
+<input type="number" id="projectPackaging" min="0" step="0.01" placeholder="e.g. 20000">
+<small class="muted">Bags, boxes, labels, ribbons and other packaging for the planned orders.</small>
+</label>
+<label>Total delivery costs you will pay (₦)
+<input type="number" id="projectDelivery" min="0" step="0.01" placeholder="e.g. 15000">
+<small class="muted">Delivery costs your business expects to cover for customers.</small>
+</label>
+<label>Advertising and marketing budget (₦)
+<input type="number" id="projectMarketing" min="0" step="0.01" placeholder="e.g. 30000">
+<small class="muted">Your planned spend on ads, influencers, promotions or campaign materials.</small>
+</label>
+<label>Estimated payment and transaction charges (₦)
+<input type="number" id="projectFees" min="0" step="0.01" placeholder="e.g. 5000">
+<small class="muted">Expected bank, transfer, POS or payment platform charges.</small>
+</label>
+<label>Other expected campaign expenses (₦)
+<input type="number" id="projectOther" min="0" step="0.01" placeholder="e.g. 10000">
+<small class="muted">Any other costs you expect to incur for this Christmas campaign.</small>
+</label>
+</div>
+<p><button onclick="calculateProjection()">Calculate my projected profit</button></p>
+<div id="projectionResult" class="panel" aria-live="polite">
+<p class="muted">Your projected sales, costs and profit will appear here.</p>
+</div>
+<p class="warning">This is a projection, not guaranteed income. Your result depends on achieving the sales target and keeping costs within your estimates. Use realistic figures. Include all costs you expect to pay; general monthly overheads, taxes and unexpected costs are not included unless you add them under other expenses.</p>
+</div>
+</section>
+<section id="discount">
+<h2>Plan your discount</h2>
+<p>Test a discount before you announce it. See what the customer will pay and what may remain after the cost of that order.</p>
+<div class="panel">
+<div class="grid">
+<label>Normal selling price (₦)
+<input type="number" id="discountPrice" min="0" step="0.01" placeholder="e.g. 10000">
+<small class="muted">The price you usually charge before the discount.</small>
+</label>
+<label>Cost of buying or making this product (₦)
+<input type="number" id="discountCost" min="0" step="0.01" placeholder="e.g. 5000">
+<small class="muted">How much this one product costs your business.</small>
+</label>
+<label>Other cost for this order (₦)
+<input type="number" id="discountExtra" min="0" step="0.01" placeholder="e.g. 600">
+<small class="muted">Packaging, delivery you cover and payment charges for this one order. Add them together.</small>
+</label>
+<label>Discount you want to offer (%)
+<input type="number" id="discountRate" min="0" max="100" step="0.1" placeholder="e.g. 10">
+<small class="muted">Enter the percentage discount, from 0 to 100.</small>
+</label>
+</div>
+<p><button onclick="calculateDiscount()">Calculate my discount</button></p>
+<div id="discountResult" class="panel" aria-live="polite">
+<p class="muted">Your discounted price and estimated profit will appear here.</p>
+</div>
+<p class="warning">This discount check shows the amount left after the product and order costs entered above. It does not include shared costs such as advertising, rent or salaries. Review your projected profit too when planning the whole campaign.</p>
+</div>
+</section><section id="plan">
+<h2>Your 7-day Christmas preparation planner</h2>
+<p>Seven focused days to prepare your business before the Christmas rush. Tick each task as you complete it. Your progress is saved on this device.</p>
+<div id="tasks" class="panel"></div>
+<div class="no-print"><button class="secondary" onclick="window.print()">Print / save as PDF</button></div>
+</section><section id="scripts">
+<h2>WhatsApp sales scripts</h2>
+<p>Use these ready-to-edit messages to respond to customers, confirm orders and follow up. Replace the words in [square brackets] with your business details.</p>
+<div id="templates"></div>
+</section>
+<section id="offer">
+<h2>Ready for a more tailored Christmas sales plan?</h2>
+<div class="panel">
+<p class="muted">YOU'VE DONE THE PREPARATION. NOW BUILD THE PLAN.</p>
+<h3>You've checked your business, worked through your numbers and prepared your sales process.</h3>
+<p>But knowing what needs to be done and having a clear plan for doing it are two different things.</p>
+<p><strong>The Nitty's Christmas Sales Blueprint</strong> is for business owners who want more direction with their festive sales, instead of trying to piece everything together on their own.</p>
+<h3>Get support with:</h3>
+<ul>
+<li>Planning a Christmas campaign around your products and business goals.</li>
+<li>Choosing what to promote and how to communicate your offer.</li>
+<li>Organising the sales process, customer follow-up and order fulfilment.</li>
+<li>Keeping track of the key activities that support your campaign.</li>
+</ul>
+<p>If you want a more structured approach to your Christmas sales, take a look at the Blueprint.</p>
+<p><a class="btn offer-link" href="https://selar.com/ny3xm19di1" target="_blank" rel="noopener noreferrer">Get the Christmas Sales Blueprint <span aria-hidden="true">→</span></a></p>
+<p class="muted">You can review the offer and its details on the checkout page before making a decision.</p>
+</div>
+<div class="panel">
+<h3>You've got this.</h3>
+<p>Use what you've learned here, make a plan you can deliver, and give your customers a smooth buying experience this Christmas.</p>
+<button class="secondary" onclick="showTab('check')">Back to the beginning</button>
+</div>
+</section></main><footer>© 2026 The Nitty by GWO · Free business tools, practical business thinking.</footer><script>
+const areas=[['Marketing & Visibility',['I have chosen a clear festive offer and products to promote.','I have a content plan for the lead-up to Christmas.','I know how to reach customers beyond my current followers.','I have a realistic promotional budget.']],['Products & Inventory',['I know my priority products and likely demand.','I have confirmed stock quantities and restocking timelines.','I have checked pricing against costs and expected margin.','I have a backup for stockouts or supplier delays.']],['Sales & Conversion',['Customers can find prices and clear ordering instructions.','I can respond to enquiries promptly.','I have a respectful follow-up process for undecided buyers.','My payment, delivery and returns policies are clear.']],['Operations & Fulfilment',['I know my realistic order-handling capacity.','I have confirmed delivery options and cut-off dates.','I can track orders from payment to delivery.','I have a process for resolving complaints or delivery delays.']],['Retention & Tracking',['I can track sales, costs and estimated profit.','I have a plan to reach past customers.','I have a post-purchase follow-up message.','I have a plan to reconnect with customers in January.']]];
+const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},put=(k,v)=>localStorage.setItem(k,JSON.stringify(v));let responses=get('nitty_answers',{}),checks=get('nitty_tasks',{});let html='';areas.forEach((a,i)=>{html+=`<div class="panel"><h3>${a[0]}</h3>`;a[1].forEach((q,j)=>{let id=`${i}-${j}`;html+=`<div class="question"><label for="q${id}">${i*4+j+1}. ${q}</label><select id="q${id}" onchange="responses['${id}']=this.value;put('nitty_answers',responses)"><option value="">Choose an answer</option><option value="2">Yes, fully in place</option><option value="1">Partly / in progress</option><option value="0">Not yet</option></select></div>`});html+='</div>'});document.getElementById('questions').innerHTML=html;Object.entries(responses).forEach(([k,v])=>{let e=document.getElementById('q'+k);if(e)e.value=v});
+function calculate(){let missing=0,scores=areas.map((a,i)=>a[1].reduce((n,q,j)=>{let v=responses[`${i}-${j}`];if(v===undefined||v==='')missing++;return n+Number(v||0)},0));if(missing){document.getElementById('results').innerHTML=`<p class="warning">Please answer all 20 questions. ${missing} remaining.</p>`;return}let total=scores.reduce((a,b)=>a+b,0),pct=Math.round(total/40*100),tier=pct>=80?'Sales Ready':pct>=50?'Getting Ready':'Needs Attention';let order=scores.map((s,i)=>({s,i})).sort((a,b)=>a.s-b.s);document.getElementById('results').innerHTML=`<h3>${pct}% — ${tier}</h3><p>${pct>=80?'Your foundations look strong. Focus on the remaining gaps.':pct>=50?'You have useful foundations, but several areas need work.':'Prioritise the basics before investing heavily in promotions.'}</p>`+scores.map((s,i)=>`<p><strong>${areas[i][0]}:</strong> ${s}/8 (${Math.round(s/8*100)}%)</p>`).join('')+`<h3>Your first priorities</h3><p>1. ${areas[order[0].i][0]} — review your unanswered readiness gaps.</p><p>2. ${areas[order[1].i][0]} — choose two concrete fixes.</p><p>Next: use the profit calculator and 7-day planner to turn these findings into action.</p><button class="secondary" onclick="window.print()">Print / save report</button>`}
+const money=n=>'₦'+n.toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+const projectionFields=['projectPrice','projectUnits','projectProducts','projectPackaging','projectDelivery','projectMarketing','projectFees','projectOther'];
+projectionFields.forEach(k=>{
+ const el=document.getElementById(k);
+ el.value=get('nitty_'+k,'');
+ el.addEventListener('input',()=>put('nitty_'+k,el.value));
+});
+function readAmounts(ids){
+ const values={};
+ for(const id of ids){
+  const raw=document.getElementById(id).value.trim();
+  if(raw==='' || !Number.isFinite(Number(raw)) || Number(raw)<0) return null;
+  values[id]=Number(raw);
+ }
+ return values;
+}
+function calculateProjection(){
+ const x=readAmounts(projectionFields),out=document.getElementById('projectionResult');
+ if(!x){out.innerHTML='<p class="warning">Please enter 0 or a positive amount in every box. Do not leave any box blank.</p>';return}
+ if(!Number.isInteger(x.projectUnits)){out.innerHTML='<p class="warning">Enter the expected number of products or orders as a whole number.</p>';return}
+ if(x.projectPrice<=0 || x.projectUnits<=0){out.innerHTML='<p class="warning">Your expected selling price and expected number of products/orders must both be more than zero.</p>';return}
+ const revenue=x.projectPrice*x.projectUnits;
+ const costs=x.projectProducts+x.projectPackaging+x.projectDelivery+x.projectMarketing+x.projectFees+x.projectOther;
+ const profit=revenue-costs;
+ const margin=revenue>0?profit/revenue*100:null;
+ const costPerOrder=costs/x.projectUnits;
+ out.innerHTML=`<div class="grid">
+  <div class="stat">Projected sales<strong>${money(revenue)}</strong></div>
+  <div class="stat">Projected total costs<strong>${money(costs)}</strong></div>
+  <div class="stat">${profit>=0?'Projected profit':'Projected loss'}<strong>${money(Math.abs(profit))}</strong></div>
+  <div class="stat">Projected profit margin<strong>${margin.toFixed(1)}%</strong></div>
+ </div>
+ <p><strong>${profit>=0?'If you reach your sales target and stay within these costs, you could have '+money(profit)+' left.':'At these estimates, your costs are higher than your expected sales by '+money(Math.abs(profit))+'. Review your price, sales target or costs before launching.'}</strong></p>
+ <p class="muted">We estimated ${x.projectUnits.toLocaleString()} products/orders × ${money(x.projectPrice)} = ${money(revenue)} in sales. Your estimated costs average ${money(costPerOrder)} per product/order.</p>`;
+}
+const discountFields=['discountPrice','discountCost','discountExtra','discountRate'];
+discountFields.forEach(k=>{
+ const el=document.getElementById(k);
+ el.value=get('nitty_'+k,'');
+ el.addEventListener('input',()=>put('nitty_'+k,el.value));
+});
+function calculateDiscount(){
+ const x=readAmounts(discountFields),out=document.getElementById('discountResult');
+ if(!x || x.discountRate>100){out.innerHTML='<p class="warning">Enter 0 or a positive amount in every box. Your discount must be between 0% and 100%.</p>';return}
+ if(x.discountPrice<=0){out.innerHTML='<p class="warning">Your normal selling price must be more than ₦0.</p>';return}
+ const discountAmount=x.discountPrice*x.discountRate/100;
+ const newPrice=x.discountPrice-discountAmount;
+ const totalOrderCost=x.discountCost+x.discountExtra;
+ const profit=newPrice-totalOrderCost;
+ const maxDiscount=Math.max(0,Math.min(100,((x.discountPrice-totalOrderCost)/x.discountPrice)*100));
+ const status=profit>0?'You still make money on this sale.':profit===0?'You break even. There is no money left as profit.':'This discount would make you lose money on this sale.';
+ out.innerHTML=`<div class="grid">
+  <div class="stat">Discount amount<strong>${money(discountAmount)}</strong></div>
+  <div class="stat">Customer pays<strong>${money(newPrice)}</strong></div>
+  <div class="stat">${profit>=0?'Profit per order':'Loss per order'}<strong>${money(Math.abs(profit))}</strong></div>
+  <div class="stat">Highest discount before break-even<strong>${maxDiscount.toFixed(1)}%</strong></div>
+ </div><p><strong>${status}</strong></p>
+ <p class="muted">We used your product cost plus the extra cost for one order (${money(totalOrderCost)}). The highest discount before break-even is an estimate, not a recommended discount.</p>`;
+}
+const tasks=[
+'Choose your main Christmas offer and decide which products you will promote.',
+'Check your stock, product costs, suppliers and restocking deadlines.',
+'Set your prices, test discounts and estimate your Christmas sales profit.',
+'Plan your marketing: choose your channels, campaign message and content.',
+'Prepare product photos, descriptions, FAQs and WhatsApp sales messages.',
+'Organise order tracking, payment confirmation, delivery and customer updates.',
+'Review your plan, fix the biggest gaps and get ready to launch.'
+];
+document.getElementById('tasks').innerHTML=tasks.map((t,i)=>`<label class="task ${checks[i]?'done':''}"><input type="checkbox" ${checks[i]?'checked':''} onchange="checks[${i}]=this.checked;put('nitty_tasks',checks);this.parentElement.classList.toggle('done',this.checked)"><span><strong>Day ${i+1}:</strong> ${t}</span></label>`).join('');
+const scripts=[['First enquiry','Hello [Name]! Thanks for your interest in [Product]. It costs ₦[Price] and is available in [Options]. Delivery to [Location] costs ₦[Fee] and usually takes [Timeline]. Would you like me to confirm availability for you?'],['Friendly follow-up','Hi [Name], checking whether you still need help choosing [Product]. Happy to answer any questions about sizing, delivery or payment. No pressure at all.'],['Order confirmation','Thank you, [Name]! Your order for [Product] has been confirmed. Amount paid: ₦[Amount]. Delivery/pickup: [Details]. Estimated fulfilment: [Date]. We’ll update you if anything changes.'],['Delivery update','Hi [Name], a quick update: your order [Order ID] is now [Status]. Estimated delivery: [Date/Time]. Please reply here if you have any questions.'],['Post-purchase check-in','Hi [Name], thanks again for shopping with [Business]. Has your order arrived safely, and is everything as expected? We’d love to help if anything needs attention.'],['Previous customer reactivation','Hi [Name], thank you for shopping with us before! We’ve prepared [Festive Offer] for the season and thought it might interest you. Would you like the details?']];
+document.getElementById('templates').innerHTML=scripts.map(([title,body],i)=>`<div class="panel"><h3>${title}</h3><div class="template" id="s${i}">${body}</div><p><button class="secondary" onclick="navigator.clipboard.writeText(document.getElementById('s${i}').textContent).then(()=>this.textContent='Copied!').catch(()=>alert('Please select and copy the text manually.'))">Copy template</button></p></div>`).join('');
+function showTab(id){
+ const target=document.getElementById(id);
+ if(!target)return;
+ document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
+ document.querySelectorAll('main > section').forEach(s=>s.classList.toggle('active',s.id===id));
+ const ids=['check','profit','discount','plan','scripts','offer'];
+ const index=ids.indexOf(id);
+ document.getElementById('journeyBar').style.width=((index+1)/ids.length*100)+'%';
+ document.getElementById('journeyStep').textContent=`STEP ${index+1} OF ${ids.length}`;
+ document.getElementById('journeyName').textContent=['Christmas Sales Check-Up','Projected Profit Calculator','Discount Calculator','7-Day Preparation Planner','WhatsApp Sales Scripts','Christmas Sales Blueprint'][index];
+ document.querySelectorAll('.step-nav').forEach(n=>n.remove());
+ const nav=document.createElement('div');nav.className='step-nav no-print';
+ const prev=index>0?`<button class="secondary" onclick="showTab('${ids[index-1]}')">← Previous</button>`:'<button class="secondary" disabled>← Previous</button>';
+ const nextLabel=index<ids.length-1?`Next: ${['','Projected Profit','Discount Calculator','7-Day Planner','Sales Scripts','Blueprint'][index+1]} →`:'Back to the beginning ↑';
+ nav.innerHTML=`${prev}<span class="step-count">STEP ${index+1} OF ${ids.length}</span><button id="nextStepButton" ${index===ids.length-1?'class="secondary"':''}>${nextLabel}</button>`;
+ nav.querySelector('#nextStepButton').addEventListener('click',()=>showTab(index<ids.length-1?ids[index+1]:'check'));
+ target.appendChild(nav);
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+showTab('check');
+
+</script></body></html>
